@@ -64,22 +64,26 @@ This results in a codebase is:
 
 * Hard to read
 * Hard to test
-* Hard to document
+* Hard to document^
 
+^ Barely a week goes by without someone asking *"what happens when X does Y -
+I thought they got email Z?"*
 
 Solution
 --------
 
 This project aims to address all three of the issues above by:
 
-* Remove all side-effects code from core functions
-* Simplify mocking / disabling of side-effects in tests
-* Simplify testing of side-effects only
-* Automate documentation of side-effects
+* Removing all side-effects code from core functions
+* Simplifying mocking / disabling of side-effects in tests
+* Simplifying testing of side-effects only
+* Automating documentation of side-effects
 
 It does this with a combination of function decorators that can
 be used to build up a global registry of side-effects.
 
+The first decorator, ``has_side_effects``, is used to mark a function as one
+that has side effects:
 
 .. code:: python
 
@@ -90,27 +94,30 @@ be used to build up a global registry of side-effects.
     def foo(*args, **kwargs):
         pass
 
-    ...
 
+The second decorator, ``is_side_effect_of``, is used to bind those functions
+that implement the side effects to the origin function:
+
+.. code:: python
 
     # bind this function to the event 'update_profile'
-    @side_effects.decorators.is_side_effect('update_profile')
+    @side_effects.decorators.is_side_effect_of('update_profile')
     def send_updates(*args, **kwargs):
         """Update CRM system."""
         pass
 
     # bind this function also to 'update_profile'
-    @side_effects.decorators.is_side_effect('update_profile')
+    @side_effects.decorators.is_side_effect_of('update_profile')
     def send_notifications(*args, **kwargs):
         """Notify account managers."""
         pass
 
 In the above example, the updates and notifications have been separated
-out from the origin function, which is now easier to understand as it is only responsible for its own functionality. In
-this example we have two side-effects bound to the same origin,
-however this is an implementation detail - you could have a single function
-implementing all the side-effects, or split them out further into the individual
-external systems.
+out from the origin function, which is now easier to understand as it is
+only responsible for its own functionality. In this example we have two
+side-effects bound to the same origin, however this is an implementation
+detail - you could have a single function implementing all the side-effects,
+or split them out further into the individual external systems.
 
 Internally, the app maintains a registry of side-effects functions bound to
 origin functions using the text labels. The docstrings for all the bound functions can be grouped using these labels, and then be printed out using the
@@ -132,6 +139,14 @@ management command ``display_side_effects``:
 
         - Send confirmation email to user.
         - Notify customer service.
+
+
+Why not use signals?
+--------------------
+
+The above solution probably looks extremely familiar - and it is very closely
+related to the built-in Django signals implementation. In fact, under the hood
+we rely on signals to hand off between functions.
 
 
 Installation
