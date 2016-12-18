@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from os import getenv
+# from os import getenv
 
 DEBUG = True
 
@@ -17,7 +17,7 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sites',
     'django.contrib.staticfiles',
-    'onfido',
+    'side_effects',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -84,6 +84,3 @@ LOGGING = {
 }
 
 assert DEBUG is True, "This project is only intended to be used for testing."
-
-ONFIDO_WEBHOOK_TOKEN=getenv('ONFIDO_WEBHOOK_TOKEN')
-

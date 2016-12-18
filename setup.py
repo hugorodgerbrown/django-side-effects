@@ -10,14 +10,14 @@ REQUIREMENTS = '\n'.join(open(path.join(path.dirname(__file__), 'requirements.tx
 chdir(path.normpath(path.join(path.abspath(__file__), pardir)))
 
 setup(
-    name="django-onfido",
-    version="0.8.0",
+    name="django-side-effects",
+    version="0.1",
     packages=find_packages(),
     install_requires=REQUIREMENTS,
     include_package_data=True,
-    description='Django app for integration with Onfido.',
+    description='Django app for managing external side effects.',
     long_description=README,
-    url='https://github.com/yunojuno/django-onfido',
+    url='https://github.com/hugorodgerbrown/django-side-effects',
     author='Hugo Rodger-Brown',
     author_email='code@yunojuno.com',
     maintainer='Hugo Rodger-Brown',
