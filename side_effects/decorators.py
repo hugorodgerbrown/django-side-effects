@@ -2,6 +2,11 @@
 """side_effects.decorators"""
 from functools import wraps
 
+from .registry import (
+    register_side_effect,
+    run_side_effects
+)
+
 
 def has_side_effects(label):
     """
@@ -30,18 +35,20 @@ def has_side_effects(label):
         def inner_func(*args, **kwargs):
             """Run the original function and send the signal if successful."""
             result = func(*args, **kwargs)
-            # TODO: execute side-effects
+            run_side_effects(label, *args, **kwargs)
             return result
         return inner_func
     return decorator
 
 
-def is_side_effect(label):
+def is_side_effect_of(label):
     """Register a function as a side-effect."""
     def decorator(func):
+        """Register the function as a side-effect."""
+        register_side_effect(label, func)
+
         @wraps(func)
         def inner_func(*args, **kwargs):
-            """Run the original function and send the signal if successful."""
-            return func(*args, **kwargs)
+            func(*args, **kwargs)
         return inner_func
     return decorator

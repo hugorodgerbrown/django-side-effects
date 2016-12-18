@@ -145,8 +145,17 @@ Why not use signals?
 --------------------
 
 The above solution probably looks extremely familiar - and it is very closely
-related to the built-in Django signals implementation. In fact, under the hood
-we rely on signals to hand off between functions.
+related to the built-in Django signals implementation. You could easily
+reproduce the output of this project using signals - this project is really
+just a formalisation of the way in which a signal-like pattern could be used
+to make your code clear and easy to document. The key differences are:
+
+1. Explicit statement that a function has side-effects
+2. A simpler binding mechanism (using text labels)
+3. (TODO) Async processing of receiver functions
+
+It may well be that this project merges back in to the signals pattern in
+due course - at the moment we still experimenting.
 
 
 Installation

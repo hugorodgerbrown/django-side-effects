@@ -18,6 +18,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'side_effects',
+    'test_app'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -26,7 +27,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware'
 )
 
-SECRET_KEY = "onfido"
+SECRET_KEY = "side-effects"
 
 ROOT_URLCONF = 'urls'
 
