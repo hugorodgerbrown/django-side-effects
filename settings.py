@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 # from os import getenv
+import urlparse
+
+from env_utils import get_env
 
 DEBUG = True
 
@@ -9,6 +12,8 @@ DATABASES = {
         'NAME': 'test.db',
     }
 }
+
+# REDIS_URL = 'redis://app.yunojuno.dev:6379'
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -82,6 +87,18 @@ LOGGING = {
             'propagate': False,
         },
     }
+}
+
+# And we're using redis for queued tasks, either locally or via redistogo on Heroku
+redis_url = urlparse.urlparse(get_env('REDIS_URL'))
+
+RQ_QUEUES = {
+    'side_effects': {
+        'HOST': redis_url.hostname,
+        'PORT': redis_url.port,
+        'DB': 0,
+        'PASSWORD': redis_url.password,
+    },
 }
 
 assert DEBUG is True, "This project is only intended to be used for testing."
