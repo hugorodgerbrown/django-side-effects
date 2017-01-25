@@ -17,7 +17,7 @@ setup(
     include_package_data=True,
     description='Django app for managing external side effects.',
     long_description=README,
-    url='https://github.com/hugorodgerbrown/django-side-effects',
+    url='https://github.com/yunojuno/django-side-effects',
     author='Hugo Rodger-Brown',
     author_email='code@yunojuno.com',
     maintainer='Hugo Rodger-Brown',

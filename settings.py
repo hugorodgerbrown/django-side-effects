@@ -13,8 +13,6 @@ DATABASES = {
     }
 }
 
-# REDIS_URL = 'redis://app.yunojuno.dev:6379'
-
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -66,11 +64,16 @@ LOGGING = {
         # },
     },
     'loggers': {
-        # '': {
-        #     'handlers': ['null'],
-        #     'propagate': True,
-        #     'level': 'DEBUG',
-        # },
+        '': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
+        'side_effects': {
+            'handlers': ['console'],
+            'propagate': True,
+            'level': 'DEBUG',
+        },
         # 'django': {
         #     'handlers': ['console'],
         #     'level': getenv('LOGGING_LEVEL_DJANGO', 'WARNING'),

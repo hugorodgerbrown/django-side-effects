@@ -10,15 +10,7 @@ from collections import defaultdict
 import logging
 import yaml
 
-import django_rq
-
-from .settings import (
-    QUEUE_NAME,
-    QUEUE_ASYNC
-)
-
 logger = logging.getLogger(__name__)
-queue = django_rq.get_queue(QUEUE_NAME, async=QUEUE_ASYNC)
 
 
 class Registry(object):
@@ -87,14 +79,16 @@ def run_side_effects(label, *args, **kwargs):
     """Run all of the side-effect functions registered for a label."""
     for func in _registry.functions(label):
         try:
-            queue.enqueue(func, *args, **kwargs)
+            func(*args, **kwargs)
+            # queue.enqueue(func, *args, **kwargs)
         except:
-            logger.exception("Error queueing side_effect for %s: %s", label, func.__name__)
+            logger.exception("Error running side_effect for %s: %s", label, func.__name__)
+            # logger.exception("Error queueing side_effect for %s: %s", label, func.__name__)
 
 
 def display_side_effects(verbose=False):
     """Print out the docs for all side-effects (in YAML block style)."""
-    print yaml.dump(_registry.docs(verbose=verbose), default_flow_style=False)
+    return yaml.dump(_registry.docs(verbose=verbose), default_flow_style=False)
 
-# global registry
+# global registry - NB race condition warning.
 _registry = Registry()
