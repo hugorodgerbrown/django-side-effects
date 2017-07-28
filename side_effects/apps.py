@@ -14,4 +14,5 @@ class SideEffectsConfig(AppConfig):
 
     def ready(self):
         logger.info("Initialising side_effects registry")
-        from . import registry  # noqa
+        from . import registry, settings  # noqa
+        print(settings.SUPPRESS_ERRORS)

@@ -7,6 +7,9 @@ from collections import defaultdict
 import logging
 import threading
 
+from . import settings
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -88,8 +91,11 @@ def _run_func(func, *args, **kwargs):
     """Run a single side-effect function and handle errors."""
     try:
         func(*args, **kwargs)
-    except:
-        logger.exception("Error running side_effect function '%s'", fname(func))
+    except Exception:
+        if settings.SUPPRESS_ERRORS:
+            logger.exception("Error running side_effect function '%s'", fname(func))
+        else:
+            raise
 
 
 # global registry
